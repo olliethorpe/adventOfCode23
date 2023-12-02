@@ -1,5 +1,5 @@
 import re
-from utils import get_input
+from utils import cache_and_read_input
 
 
 def get_part_1_answer(input):
@@ -43,8 +43,7 @@ def generate_part_2_answer(input):
 
 
 if __name__ == "__main__":
-    response = get_input(1)
-    r = response.text.split('\n')[:-1]
+    r = cache_and_read_input(1).split('\n')[:-1]
     print(get_part_1_answer(r))
 
     print(generate_part_2_answer(r))
