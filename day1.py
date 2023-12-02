@@ -1,21 +1,5 @@
-import requests
-from dotenv import load_dotenv
-import os
 import re
-
-load_dotenv()
-
-
-def get_input():
-
-    URL = "https://adventofcode.com/2023/day/1/input"
-
-    cookies = {
-        "session": os.getenv("aoc_session"),
-    }
-
-    response = requests.get(URL, cookies=cookies)
-    return response
+from utils import get_input
 
 
 def get_part_1_answer(input):
@@ -59,7 +43,7 @@ def generate_part_2_answer(input):
 
 
 if __name__ == "__main__":
-    response = get_input()
+    response = get_input(1)
     r = response.text.split('\n')[:-1]
     print(get_part_1_answer(r))
 
