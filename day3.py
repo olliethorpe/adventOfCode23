@@ -53,6 +53,7 @@ def calculate_part_1_answer(engine_schematic):
 
 
 def get_entire_part_no(line, symbol_index):
+    
     part_no = ''
 
     # find start of number
@@ -65,33 +66,39 @@ def get_entire_part_no(line, symbol_index):
         symbol_index += 1
     return part_no
 
-if __name__ == "__main__":
-    engine_schematic = cache_and_read_input(3).split('\n')[:-1]
+
+def calculate_part_2_answer(engine_schematic):
+    """
+    What happens if the same part number seperated but is specified twice on one line and 
+    This function would take an input such as:
+        ....123...
+        ....*.....
+        .755.755..
+    to be 2 adjacent part numbers.
+    the two 755's on the bottom row would be merged to one, because of the use of a set.
+
+    This could be improved and refactpored to make the code more DRY
+    """
 
     sum_of_gear_products = 0
 
     # Find a *
     for line_no, line in enumerate(engine_schematic):
         for symbol_no, symbol in enumerate(line):
-            parts = []
             if symbol == '*':
-
-                # Search around it for numbers
-
+                parts = []
                 # left
                 if symbol_no > 0 and line[symbol_no - 1].isdigit():
                     parts.append(get_entire_part_no(line, symbol_no - 1))  
                 # right
                 if symbol_no < len(line) - 1 and line[symbol_no + 1].isdigit():
-                    # find the entire number
                     parts.append(get_entire_part_no(line, symbol_no + 1))
 
+                # above and below
                 parts_above = set()
                 parts_below = set()
-
                 for x in range(-1, 2):
                     symbol_above_below_no = symbol_no + x
-
                     if symbol_above_below_no >= 0 and symbol_above_below_no < len(line):
 
                         if line_no > 0 and engine_schematic[line_no - 1][symbol_above_below_no].isdigit():
@@ -109,7 +116,7 @@ if __name__ == "__main__":
                 parts.extend(list(parts_above))
                 parts.extend(list(parts_below))
 
-                print(f"Parts found for the astrix in position {symbol_no} on line {line_no}: {parts}")
+                # print(f"Parts found for the astrix in position {symbol_no} on line {line_no}: {parts}")
                 if len(parts) == 2:
                     product_of_gears = 1
                     for gear in parts:
@@ -118,3 +125,9 @@ if __name__ == "__main__":
                     sum_of_gear_products += product_of_gears
 
     print(sum_of_gear_products)
+
+
+if __name__ == "__main__":
+    engine_schematic = cache_and_read_input(3).split('\n')[:-1]
+
+    calculate_part_2_answer(engine_schematic)
