@@ -50,6 +50,21 @@ def calculate_part_1_answer(engine_schematic):
                 part_no = ''
     print(sum_of_part_nos)
 
+
+
+def get_entire_part_no(line, symbol_index):
+    part_no = ''
+
+    # find start of number
+    while symbol_index >= 0 and line[symbol_index].isdigit():
+        symbol_index -= 1
+    symbol_index += 1
+    # obtain whole number
+    while symbol_index <= len(line) - 1 and line[symbol_index].isdigit():
+        part_no += line[symbol_index]
+        symbol_index += 1
+    return part_no
+
 if __name__ == "__main__":
     engine_schematic = cache_and_read_input(3).split('\n')[:-1]
 
@@ -58,23 +73,48 @@ if __name__ == "__main__":
     # Find a *
     for line_no, line in enumerate(engine_schematic):
         for symbol_no, symbol in enumerate(line):
+            parts = []
             if symbol == '*':
 
                 # Search around it for numbers
 
                 # left
                 if symbol_no > 0 and line[symbol_no - 1].isdigit():
-                    # find the entire number
-                    pass
+                    parts.append(get_entire_part_no(line, symbol_no - 1))  
                 # right
-                if symbol_no != len(line) -1 and line[symbol_no - 1].isdigit():
+                if symbol_no < len(line) - 1 and line[symbol_no + 1].isdigit():
                     # find the entire number
-                    pass
-                # above
+                    parts.append(get_entire_part_no(line, symbol_no + 1))
 
+                parts_above = set()
+                parts_below = set()
 
+                for x in range(-1, 2):
+                    symbol_above_below_no = symbol_no + x
 
+                    if symbol_above_below_no >= 0 and symbol_above_below_no < len(line):
 
-    # If there are EXACTLY 2 adjacent part numbers, find the numbers in their entirety
+                        if line_no > 0 and engine_schematic[line_no - 1][symbol_above_below_no].isdigit():
+                            line_above = engine_schematic[line_no - 1]
+                            part_no_above = get_entire_part_no(line_above, symbol_above_below_no)
+                            parts_above.add(part_no_above)
+                            # print(f"Adding part to parts list for above the astrix {part_no_above}")
 
-    # Find product of them 
+                        if line_no < len(engine_schematic) - 1 and engine_schematic[line_no + 1][symbol_above_below_no].isdigit():
+                            line_below = engine_schematic[line_no + 1]
+                            part_no_below = get_entire_part_no(line_below, symbol_above_below_no)
+                            parts_below.add(part_no_below)
+                            # print(f"Adding part to parts list for below the astrix {part_no_below}")
+
+                parts.extend(list(parts_above))
+                parts.extend(list(parts_below))
+
+                print(f"Parts found for the astrix in position {symbol_no} on line {line_no}: {parts}")
+                if len(parts) == 2:
+                    product_of_gears = 1
+                    for gear in parts:
+                        product_of_gears = product_of_gears * int(gear)
+
+                    sum_of_gear_products += product_of_gears
+
+    print(sum_of_gear_products)
