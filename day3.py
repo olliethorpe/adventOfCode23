@@ -51,7 +51,6 @@ def calculate_part_1_answer(engine_schematic):
     print(sum_of_part_nos)
 
 
-
 def get_entire_part_no(line, symbol_index):
     
     part_no = ''

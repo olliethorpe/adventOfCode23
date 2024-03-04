@@ -24,7 +24,6 @@ for seed_index, seed_mapped in enumerate(seeds):
             source_range_start = int(mapping_set[1])
             range_length = int(mapping_set[2])
 
-
             # destination_range_end = destination_range_start + range_length
             source_range_end = source_range_start + range_length - 1
             # print(f"source start: {source_range_start}")
@@ -43,8 +42,5 @@ for seed_index, seed_mapped in enumerate(seeds):
                 seed_mapped = new_seed_value
                 # print(f"New seed mapped: {seeds}")
                 break
-
-        # if next_mapping_found:
-        #     break
 
 print(min(seeds))
