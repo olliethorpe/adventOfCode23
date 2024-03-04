@@ -14,7 +14,8 @@ for race in data:
     components = race.split()
     time += str(components[0])
     record += str(components[1])
-
+time = int(time)
+record = int(record)
 speed = 0
 distance = 0
 
