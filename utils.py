@@ -13,7 +13,7 @@ def get_input(day: str):
     cookies = {
         "session": os.getenv("session"),
     }
-    print(cookies)
+
     response = requests.get(URL, cookies=cookies)
     return response
 
@@ -38,7 +38,7 @@ def cache_and_read_input(day) -> list[str]:
     return read_input
 
 
-if __name__ =="__main__":
+if __name__ == "__main__":
     r = get_input(7)
 
     print(r.text)
