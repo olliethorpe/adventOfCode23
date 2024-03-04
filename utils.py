@@ -5,15 +5,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def get_input(day):
+def get_input(day: str):
     print("Obtaining input via https")
 
     URL = "https://adventofcode.com/2023/day/{}/input".format(day)
 
     cookies = {
-        "session": os.getenv("aoc_session"),
+        "session": os.getenv("session"),
     }
-
+    print(cookies)
     response = requests.get(URL, cookies=cookies)
     return response
 
@@ -39,4 +39,6 @@ def cache_and_read_input(day) -> list[str]:
 
 
 if __name__ =="__main__":
-    cache_and_read_input(2)
+    r = get_input(7)
+
+    print(r.text)
